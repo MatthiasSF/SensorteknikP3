@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Project3</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bu_low_light">low light</string>
+    <string name="bu_bright">Bright</string>
+    <string name="bu_very_bright">Very bright</string>
+    <string name="bu_blinding">Blinding</string>
+    <string name="bu_dark">Dark</string>
+    <string name="header_please_select_your_brightness">Please select your brightness</string>
+    <string name="current_preset">Current preset:</string>
+    <string name="the_changes_to_screen_brightness_will_be_permanent">The changes to screen brightness will be permanent</string>
+</resources>
