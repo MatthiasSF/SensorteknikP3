@@ -39,6 +39,8 @@ public class ScreenBrightnessFragment extends Fragment {
     private Sensor proximitySensor;
     private boolean isFlashLightOn;
     private boolean activateFlashLight = false;
+    private float lastLight = 0f;
+    private float light = 0f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,6 +142,7 @@ public class ScreenBrightnessFragment extends Fragment {
                 choice = 2f;
                 setText("Blinding");
             }
+            changeScreenBrightness(1/ light);
         }
     }
     private class SensorListener implements SensorEventListener{
@@ -147,9 +150,17 @@ public class ScreenBrightnessFragment extends Fragment {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
-                float light = event.values[0];
-                if (light > 0 && light < 100) {
+                light = event.values[0];
+                float differenceInLight = 0f;
+                if (lastLight > light){
+                    differenceInLight = lastLight - light;
+                }
+                if (light > lastLight){
+                    differenceInLight = light - lastLight;
+                }
+                if (light > 0 && light < 100 && differenceInLight > 4) {
                     changeScreenBrightness(1 / light);
+                    lastLight = light;
                 }
             }else if (event.sensor.getType() == Sensor.TYPE_PROXIMITY){
                 float distanceFromPhone = event.values[0];
