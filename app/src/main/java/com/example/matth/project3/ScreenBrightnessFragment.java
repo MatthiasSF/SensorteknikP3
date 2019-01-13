@@ -161,19 +161,19 @@ public class ScreenBrightnessFragment extends Fragment {
                 setText("Dark");
             }
             if (v.getId() == buttonLo.getId()){
-                choice = 0.5f;
+                choice = 2f;
                 setText("Low light");
             }
             if (v.getId() == buttonBright.getId()){
-                choice = 1f;
+                choice = 5f;
                 setText("Bright");
             }
             if (v.getId() == buttonVBright.getId()){
-                choice = 1.5f;
+                choice = 10f;
                 setText("Very bright");
             }
             if (v.getId() == buttonBlinding.getId()){
-                choice = 2f;
+                choice = 20f;
                 setText("Blinding");
             }
             changeScreenBrightness(1/ light);

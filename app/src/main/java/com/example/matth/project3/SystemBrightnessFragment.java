@@ -160,11 +160,15 @@ public class SystemBrightnessFragment extends Fragment {
      */
     private void changeScreenBrightness(float v) {
         float f = v * choice;
+        int brightness = (int) (f * 255);
         if (!Settings.System.canWrite(getContext())){
             Intent i = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
             startActivity(i);
         }else {
-            Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, (int) (f * 255));
+            if (brightness > 255 ){
+                brightness = 255;
+            }
+            Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
         }
         if (v > 0.03){
             activateFlashLight = true;
@@ -227,19 +231,19 @@ public class SystemBrightnessFragment extends Fragment {
                 setText("Dark");
             }
             if (v.getId() == buttonLo.getId()){
-                choice = 0.5f;
+                choice = 2f;
                 setText("Low light");
             }
             if (v.getId() == buttonBright.getId()){
-                choice = 1f;
+                choice = 5f;
                 setText("Bright");
             }
             if (v.getId() == buttonVBright.getId()){
-                choice = 1.5f;
+                choice = 10f;
                 setText("Very bright");
             }
             if (v.getId() == buttonBlinding.getId()){
-                choice = 2f;
+                choice = 20f;
                 setText("Blinding");
             }
             changeScreenBrightness(1/ light);
