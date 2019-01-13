@@ -23,6 +23,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Fragment used to change the system brightness of the screen
+ * @author Matthias Falk
+ */
 public class SystemBrightnessFragment extends Fragment {
     private View view;
     private SensorManager sensorManager;
@@ -55,6 +59,10 @@ public class SystemBrightnessFragment extends Fragment {
         setSensor();
         return view;
     }
+
+    /**
+     * Initializes all of the components in the application
+     */
     private void initialize(){
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         cameraManager = (CameraManager)getActivity().getSystemService(Context.CAMERA_SERVICE);
@@ -75,6 +83,10 @@ public class SystemBrightnessFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Sets up the sensors used in the fragment
+     */
     private void setSensor(){
         if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null) {
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -95,6 +107,10 @@ public class SystemBrightnessFragment extends Fragment {
         }
         initScreenBrightness();
     }
+
+    /**
+     * turns the flashlight on
+     */
     private void turnFlashLightOn(){
         if (activateFlashLight) {
             if (parameters.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)) {
@@ -107,6 +123,10 @@ public class SystemBrightnessFragment extends Fragment {
             }
         }
     }
+
+    /**
+     * Turns the flashlight of
+     */
     private void turnFlashLightOff(){
         if (parameters.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)){
             try {
@@ -117,20 +137,33 @@ public class SystemBrightnessFragment extends Fragment {
             isFlashLightOn = false;
         }
     }
+
+    /**
+     * Initializes components used to adjust the screen brightness
+     */
     private void initScreenBrightness() {
         window = getActivity().getWindow();
         contentResolver = getActivity().getContentResolver();
     }
+
+    /**
+     * Sets the text in the textview
+     * @param t - the text that will be displayed
+     */
     private void setText(String t){
         tvPreset.setText(getText(R.string.current_preset) + " " + t);
     }
+
+    /**
+     * Changes the system screen brightness
+     * @param v - value picked up by the lightsensor
+     */
     private void changeScreenBrightness(float v) {
         float f = v * choice;
         if (!Settings.System.canWrite(getContext())){
             Intent i = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
             startActivity(i);
         }else {
-            System.out.println(Settings.System.canWrite(getContext()));
             Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, (int) (f * 255));
         }
         if (v > 0.03){
@@ -140,6 +173,11 @@ public class SystemBrightnessFragment extends Fragment {
             activateFlashLight = false;
         }
     }
+
+    /**
+     * Inner class that implements the sensoreventlistener interface
+     * Listens for changes in the active sensors
+     */
     private class SensorListener implements SensorEventListener{
 
         @Override
@@ -175,6 +213,11 @@ public class SystemBrightnessFragment extends Fragment {
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     }
+
+    /**
+     * Inner class that implements the OnClickListener interface
+     * Gives an value that will be multiplied with the value picked up by the lightsensor
+     */
     private class ButtonListener implements View.OnClickListener{
 
         @Override
@@ -202,6 +245,10 @@ public class SystemBrightnessFragment extends Fragment {
             changeScreenBrightness(1/ light);
         }
     }
+
+    /**
+     * Registers the listener
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -211,6 +258,10 @@ public class SystemBrightnessFragment extends Fragment {
             Toast.makeText(getContext(),"Listener registered", Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     * Deregisters the listener
+     */
     @Override
     public void onPause() {
         super.onPause();

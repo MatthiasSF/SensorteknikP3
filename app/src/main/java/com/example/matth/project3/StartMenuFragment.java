@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * Fragment that displays the start menu
+ * @author Matthias Falk
+ */
 public class StartMenuFragment extends Fragment {
     private View view;
     private Button scB;
@@ -20,12 +24,21 @@ public class StartMenuFragment extends Fragment {
         initialize();
         return view;
     }
+
+    /**
+     * Initializes all of the component in the fragment
+     */
     private void initialize() {
         scB = view.findViewById(R.id.startMenuScB);
         syB = view.findViewById(R.id.startMenuSyB);
         scB.setOnClickListener(new ButtonListener());
         syB.setOnClickListener(new ButtonListener());
     }
+
+    /**
+     * Inner class that implements the OnClickListener interface.
+     * Changes the fragment depending on the users choice
+     */
     private class ButtonListener implements View.OnClickListener{
         private StartActivity startActivity = (StartActivity) getActivity();
         private static final String SCREENBRIGHTNESSFRAGMENT = "ScreenBrightnessFragment";

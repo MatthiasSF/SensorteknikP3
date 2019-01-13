@@ -15,6 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+/**
+ * Activity that holds the fragments used in the application
+ * @author Matthias Falk
+ */
 public class StartActivity extends AppCompatActivity {
     private static final String START_MENU_FRAGMENT = "StartMenuFragment";
     private StartMenuFragment startMenuFragment;
@@ -25,6 +29,10 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         initializeStartMenuFrag();
     }
+
+    /**
+     * Initializes the StartMenuFragment
+     */
     private void initializeStartMenuFrag(){
         startMenuFragment = (StartMenuFragment) this.getSupportFragmentManager().findFragmentByTag(START_MENU_FRAGMENT);
         if (startMenuFragment == null){
@@ -32,6 +40,13 @@ public class StartActivity extends AppCompatActivity {
         }
         this.setFragment(startMenuFragment, false, START_MENU_FRAGMENT);
     }
+
+    /**
+     * Changes fragment that will be displayed
+     * @param fragment - the fragment it will change to
+     * @param backStack - true or false
+     * @param tag - The tag of the fragment
+     */
     public void setFragment(Fragment fragment, boolean backStack, String tag){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

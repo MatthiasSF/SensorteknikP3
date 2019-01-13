@@ -19,6 +19,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Fragment that changes the window brightness
+ * @author Matthias Falk
+ */
 public class ScreenBrightnessFragment extends Fragment {
     private View view;
     private SensorManager sensorManager;
@@ -50,6 +54,10 @@ public class ScreenBrightnessFragment extends Fragment {
         setSensor();
         return view;
     }
+
+    /**
+     * Initializes all of the components used in the application
+     */
     private void initialize(){
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         cameraManager = (CameraManager)getActivity().getSystemService(Context.CAMERA_SERVICE);
@@ -70,6 +78,10 @@ public class ScreenBrightnessFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Sets up all of the sensors that is being used
+     */
     private void setSensor(){
         if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null) {
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -90,6 +102,10 @@ public class ScreenBrightnessFragment extends Fragment {
         }
         initScreenBrightness();
     }
+
+    /**
+     * Turns the flashlight on
+     */
     private void turnFlashLightOn(){
         if (activateFlashLight) {
             if (parameters.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)) {
@@ -102,6 +118,10 @@ public class ScreenBrightnessFragment extends Fragment {
             }
         }
     }
+
+    /**
+     * Turns the flashlight off
+     */
     private void turnFlashLightOff(){
         if (parameters.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)){
             try {
@@ -112,12 +132,26 @@ public class ScreenBrightnessFragment extends Fragment {
             isFlashLightOn = false;
         }
     }
+
+    /**
+     * Gets the window of the activity
+     */
     private void initScreenBrightness() {
         window = getActivity().getWindow();
     }
+
+    /**
+     * Sets the textview
+     * @param t - the text that will be displayed
+     */
     private void setText(String t){
         tvPreset.setText(getText(R.string.current_preset) + " " + t);
     }
+
+    /**
+     * Inner class that implements the OnClickListener interface
+     * Gives an value that will be multiplied with the value picked up by the lightsensor
+     */
     private class ButtonListener implements View.OnClickListener{
 
         @Override
@@ -145,6 +179,11 @@ public class ScreenBrightnessFragment extends Fragment {
             changeScreenBrightness(1/ light);
         }
     }
+
+    /**
+     * Inner class that implements the SensorEventListener
+     * Listens for changes in the active sensors
+     */
     private class SensorListener implements SensorEventListener{
 
         @Override
@@ -180,6 +219,10 @@ public class ScreenBrightnessFragment extends Fragment {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     }
 
+    /**
+     * Changes the windowbrightness
+     * @param v - value that is given by the lightsensor
+     */
     private void changeScreenBrightness(float v) {
         WindowManager.LayoutParams mLayoutParams = window.getAttributes();
         if (choice != -1){
@@ -197,6 +240,9 @@ public class ScreenBrightnessFragment extends Fragment {
         }
     }
 
+    /**
+     * Registers the listener
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -206,6 +252,10 @@ public class ScreenBrightnessFragment extends Fragment {
             Toast.makeText(getContext(),"Listener registered", Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     * Deregisters the listener
+     */
     @Override
     public void onPause() {
         super.onPause();
